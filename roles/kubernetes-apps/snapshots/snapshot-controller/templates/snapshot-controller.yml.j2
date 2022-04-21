@@ -30,6 +30,21 @@ spec:
       labels:
         app: snapshot-controller
     spec:
+      # Node affinity is used instead of nodeSelector,
+      # as the pod should tolerate all taints and still
+      # not be executed on master/control plane nodes.
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
+      # Tolerate all NoSchedule taints to enable monitoring
+      # even if customer uses taints for worker nodes.
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
       serviceAccount: snapshot-controller
       containers:
         - name: snapshot-controller
