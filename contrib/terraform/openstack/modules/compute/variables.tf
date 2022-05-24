@@ -124,6 +124,10 @@ variable "worker_allowed_ports" {
   type = list
 }
 
+variable "bastion_allowed_ports" {
+  type = list
+}
+
 variable "use_access_ip" {}
 
 variable "master_server_group_policy" {
