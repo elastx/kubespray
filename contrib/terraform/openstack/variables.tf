@@ -239,7 +239,7 @@ variable "worker_allowed_ports" {
   ]
 }
 
-variable "master_allowed_ports" {
+variable "bastion_allowed_ports" {
   type = list(any)
 
   default = []
