@@ -80,6 +80,7 @@ module "compute" {
   supplementary_node_groups                    = var.supplementary_node_groups
   master_allowed_ports                         = var.master_allowed_ports
   worker_allowed_ports                         = var.worker_allowed_ports
+  bastion_allowed_ports                        = var.bastion_allowed_ports
   wait_for_floatingip                          = var.wait_for_floatingip
   use_access_ip                                = var.use_access_ip
   master_server_group_policy                   = var.master_server_group_policy
