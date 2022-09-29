@@ -9,7 +9,15 @@
         mode: 0700
         content: |
           #!/bin/bash
-          crictl rm $(crictl ps -a | grep "$(journalctl -u kubelet --since "2 minute ago" -o cat -g 'no PodsandBox found with Id' -n1 | awk -F' ' '{print $NF}' | cut -c 2-14)"|awk '{ print $1 }')
+          if systemctl is-active --quiet kubelet; then
+            if journalctl -u kubelet --since "2 minute ago" | grep -F '"Failed to start ContainerManager" err="failed to build map of initial containers from runtime: no PodsandBox found with Id'; then
+              systemctl stop kubelet
+              crictl ps -a -q | xargs crictl stop
+              crictl ps -a -q | xargs crictl rm
+              systemctl start kubelet
+              sleep 90
+            fi
+          fi
 
     - name: Handle cron job for "no PodsandBox found with Id" error
       ansible.builtin.cron:
