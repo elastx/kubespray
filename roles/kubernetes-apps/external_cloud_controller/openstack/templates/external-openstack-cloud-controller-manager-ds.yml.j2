@@ -46,7 +46,7 @@ spec:
             - --cloud-provider=openstack
             - --cluster-name={{ cluster_name }}
             - --use-service-account-credentials=true
-            - --bind-address=127.0.0.1
+            - --bind-address=0.0.0.0
 {% for key, value in external_openstack_cloud_controller_extra_args.items() %}
             - "{{ '--' + key + '=' + value }}"
 {% endfor %}
